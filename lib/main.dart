@@ -2,6 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
 
+const snakeSize = 20.0;
 void main() {
   runApp(const HomePage());
 }
