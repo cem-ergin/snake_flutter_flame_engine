@@ -27,7 +27,7 @@ class Food extends PositionComponent {
   @override
   FutureOr<void> onLoad() {
     randomizePosition();
-    paint = Paint()..color = const Color(0xFFFF0000);
+    paint = Paint()..color = const Color(0xFFFF0000).withOpacity(0.5);
     add(RectangleHitbox(isSolid: true, position: position, size: Vector2(20, 20)));
 
     return super.onLoad();
