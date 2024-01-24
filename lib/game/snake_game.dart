@@ -10,19 +10,17 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection {
   late Snake snake;
   late Food food;
 
-  SnakeGame() {
-    // updateInterval = 50;
-  }
-
   @override
   Future<void> onLoad() async {
     debugMode = true;
 
-    snake = Snake(this);
+    food = Food(this);
+    add(food);
+
+    snake = Snake(this, food: food);
     add(snake);
 
-    food = Food(this)..randomizePosition();
-    add(food);
+    return super.onLoad();
   }
 
   @override

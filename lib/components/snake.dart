@@ -10,7 +10,6 @@ import 'package:snake_flame_engine_flutter/game/snake_game.dart';
 class Snake extends PositionComponent with CollisionCallbacks {
   late Paint headPaint;
   late Paint bodyPaint;
-  double speed = 300.0;
   late Vector2 head;
   late Vector2 direction;
   late SnakeGame gameRef;
@@ -20,7 +19,9 @@ class Snake extends PositionComponent with CollisionCallbacks {
   late List<SnakeBody> snakeBody;
   bool addNewBody = false;
 
-  Snake(this.gameRef);
+  Snake(this.gameRef, {required this.food});
+
+  final Food food;
 
   @override
   FutureOr<void> onLoad() {
@@ -56,7 +57,7 @@ class Snake extends PositionComponent with CollisionCallbacks {
 
   @override
   void update(double dt) {
-    if (updateTime < 0.3) {
+    if (updateTime < 0.1) {
       updateTime += dt;
       return;
     }
@@ -144,6 +145,7 @@ class Snake extends PositionComponent with CollisionCallbacks {
     switch (other) {
       case Food():
         addNewBody = true;
+        food.randomizePosition([food.position, head, ...snakeBody.map((body) => body.position).toList()]);
         break;
 
       case Snake():
