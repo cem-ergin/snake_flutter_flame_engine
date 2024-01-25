@@ -17,7 +17,6 @@ class Food extends PositionComponent {
   Food(this.gameRef);
 
   void randomizePosition(List<Vector2> occupiedPositions) {
-    print('randomizePosition');
     final canvasSize = gameRef.canvasSize.toSize();
     final canvasX = canvasSize.width / 2;
     final canvasY = canvasSize.height / 2;

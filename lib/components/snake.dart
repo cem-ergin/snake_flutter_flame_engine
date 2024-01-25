@@ -6,6 +6,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/components/food.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
+import 'package:snake_flame_engine_flutter/overlays/game_over_view.dart';
+import 'package:snake_flame_engine_flutter/overlays/pause_view.dart';
 
 class Snake extends PositionComponent with CollisionCallbacks {
   late Paint headPaint;
@@ -111,24 +113,24 @@ class Snake extends PositionComponent with CollisionCallbacks {
   }
 
   void handleOffDimensions(Vector2 newHead) {
-    if (newHead.x > gameRef.size.x) {
+    final gameX = gameRef.size.x;
+    final gameY = gameRef.size.y;
+    final divideX = gameX ~/ snakeSize.ceil();
+    final divideY = gameY ~/ snakeSize.ceil();
+    final finalSizeX = divideX * snakeSize;
+    final finalSizeY = divideY * snakeSize;
+
+    if (newHead.x > gameX) {
       newHead.x = 0;
     }
     if (newHead.x <= -snakeSize) {
-      newHead.x = gameRef.size.x - snakeSize;
-      final gameX = gameRef.size.x;
-      final divide = gameX ~/ snakeSize.ceil();
-      final finalSize = divide * snakeSize;
-      newHead.x = finalSize - snakeSize;
+      newHead.x = finalSizeX - snakeSize;
     }
-    if (newHead.y > gameRef.size.y) {
+    if (newHead.y > gameY) {
       newHead.y = 0;
     }
     if (newHead.y <= -snakeSize) {
-      final gameY = gameRef.size.y;
-      final divide = gameY ~/ snakeSize.ceil();
-      final finalSize = divide * snakeSize;
-      newHead.y = finalSize - snakeSize;
+      newHead.y = finalSizeY - snakeSize;
     }
   }
 
@@ -148,8 +150,9 @@ class Snake extends PositionComponent with CollisionCallbacks {
         food.randomizePosition([food.position, head, ...snakeBody.map((body) => body.position).toList()]);
         break;
 
-      case Snake():
-        debugPrint("game over");
+      case SnakeBody():
+        gameRef.pauseEngine();
+        gameRef.overlays.add(GameOverView.id);
         break;
 
       default:
