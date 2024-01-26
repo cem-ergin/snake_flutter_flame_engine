@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flame/camera.dart';
+import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -18,9 +20,11 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
 
   @override
   Future<void> onLoad() async {
-    debugMode = true;
+    super.onLoad();
+    debugMode = false;
 
-    board = Board(size: canvasSize);
+    camera = CameraComponent(world: world, viewport: FixedSizeViewport(gameSize.x, gameSize.y));
+    board = Board(boardSize: gameSize);
     add(board);
 
     food = Food(this);
@@ -29,7 +33,32 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
     snake = Snake(this, food: food);
     add(snake);
 
-    return super.onLoad();
+    size.setValues(gameSize.x, gameSize.y);
+    canvasSize.setValues(gameSize.x, gameSize.y);
+
+    snake.loaded.then((value) {
+      pauseEngine();
+    });
+  }
+
+  @override
+  void onParentResize(Vector2 maxSize) {
+    print('onParentResize: $maxSize');
+    if (isLoaded) {
+      size.setFrom(gameSize);
+      canvasSize.setFrom(gameSize);
+    }
+    super.onParentResize(maxSize);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    print('onGameResize: $size');
+    if (isLoaded) {
+      size.setFrom(gameSize);
+      canvasSize.setFrom(gameSize);
+    }
+    super.onGameResize(size);
   }
 
   void restart() {

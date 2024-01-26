@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
 
-class GameOverView extends StatelessWidget {
-  static const String id = 'GameOverView';
-  const GameOverView({super.key, required this.gameRef});
+class GameFinishedView extends StatelessWidget {
+  static const String id = 'GameFinishedView';
+  const GameFinishedView({super.key, required this.gameRef});
 
   final SnakeGame gameRef;
 
@@ -16,7 +16,7 @@ class GameOverView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Game Over',
+                'Congratulations! You Won!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

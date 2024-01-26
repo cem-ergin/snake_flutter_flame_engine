@@ -10,27 +10,29 @@ class PauseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                gameRef.overlays.remove(id);
-                gameRef.resumeEngine();
-              },
-              child: const Text('Resume'),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                gameRef.restart();
-                gameRef.overlays.remove(id);
-                gameRef.resumeEngine();
-              },
-              child: const Text('Restart'),
-            ),
-          ],
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  gameRef.overlays.remove(id);
+                  gameRef.resumeEngine();
+                },
+                child: const Text('Resume'),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  gameRef.restart();
+                  gameRef.overlays.remove(id);
+                  gameRef.resumeEngine();
+                },
+                child: const Text('Restart'),
+              ),
+            ],
+          ),
         ),
       ),
     );

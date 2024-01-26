@@ -6,8 +6,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/components/food.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
+import 'package:snake_flame_engine_flutter/main.dart';
 import 'package:snake_flame_engine_flutter/overlays/game_over_view.dart';
-import 'package:snake_flame_engine_flutter/overlays/pause_view.dart';
 
 class Snake extends PositionComponent with CollisionCallbacks {
   late Paint headPaint;
@@ -59,7 +59,7 @@ class Snake extends PositionComponent with CollisionCallbacks {
 
   @override
   void update(double dt) {
-    if (updateTime < 0.1) {
+    if (updateTime < 0.5) {
       updateTime += dt;
       return;
     }
@@ -113,20 +113,20 @@ class Snake extends PositionComponent with CollisionCallbacks {
   }
 
   void handleOffDimensions(Vector2 newHead) {
-    final gameX = gameRef.size.x;
-    final gameY = gameRef.size.y;
+    final gameX = gameRef.canvasSize.x;
+    final gameY = gameRef.canvasSize.y;
     final divideX = gameX ~/ snakeSize.ceil();
     final divideY = gameY ~/ snakeSize.ceil();
     final finalSizeX = divideX * snakeSize;
     final finalSizeY = divideY * snakeSize;
 
-    if (newHead.x > gameX) {
+    if (newHead.x >= gameX) {
       newHead.x = 0;
     }
     if (newHead.x <= -snakeSize) {
       newHead.x = finalSizeX - snakeSize;
     }
-    if (newHead.y > gameY) {
+    if (newHead.y >= gameY) {
       newHead.y = 0;
     }
     if (newHead.y <= -snakeSize) {
@@ -147,7 +147,7 @@ class Snake extends PositionComponent with CollisionCallbacks {
     switch (other) {
       case Food():
         addNewBody = true;
-        food.randomizePosition([food.position, head, ...snakeBody.map((body) => body.position).toList()]);
+        food.randomizePosition([head, ...snakeBody.map((body) => body.position).toList()]);
         break;
 
       case SnakeBody():
@@ -162,11 +162,11 @@ class Snake extends PositionComponent with CollisionCallbacks {
 
 class SnakeBody extends PositionComponent {
   late Paint paint;
-  double snakeSize = 20;
   late RectangleHitbox hitbox;
 
   SnakeBody(Vector2 position) {
     this.position = position;
+    print('body position: $position');
     paint = Paint()..color = Colors.blue;
     hitbox = RectangleHitbox(
       size: Vector2(snakeSize - 10, snakeSize - 10),
@@ -175,7 +175,4 @@ class SnakeBody extends PositionComponent {
     );
     add(hitbox);
   }
-
-  @override
-  void update(double dt) {}
 }

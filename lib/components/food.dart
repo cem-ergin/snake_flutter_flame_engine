@@ -7,6 +7,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
 import 'package:snake_flame_engine_flutter/main.dart';
+import 'package:snake_flame_engine_flutter/overlays/game_finished_view.dart';
+import 'package:snake_flame_engine_flutter/overlays/game_over_view.dart';
 
 class Food extends PositionComponent {
   late Paint paint;
@@ -18,28 +20,35 @@ class Food extends PositionComponent {
 
   void randomizePosition(List<Vector2> occupiedPositions) {
     final canvasSize = gameRef.canvasSize.toSize();
-    final canvasX = canvasSize.width / 2;
-    final canvasY = canvasSize.height / 2;
-    final randomPosition = Vector2(
-      (random.nextDouble() * canvasX / 20).floor() * 20,
-      (random.nextDouble() * canvasY / 20).floor() * 20,
-    );
-    if (occupiedPositions.isNotEmpty) {
-      for (var pos in occupiedPositions) {
-        if (pos.x == randomPosition.x && pos.y == randomPosition.y) {
-          randomizePosition(occupiedPositions);
-          return;
+
+    List<Vector2> availablePositions = [];
+
+    for (int x = 0; x < canvasSize.width; x += snakeSize.toInt()) {
+      for (int y = 0; y < canvasSize.height; y += snakeSize.toInt()) {
+        Vector2 position = Vector2(x.toDouble(), y.toDouble());
+        bool isOccupied = occupiedPositions.any(
+          (pos) => (pos.x - position.x).abs() < snakeSize && (pos.y - position.y).abs() < snakeSize,
+        );
+        if (!isOccupied) {
+          availablePositions.add(position);
         }
       }
     }
-    position = randomPosition;
-    hitbox.x = randomPosition.x;
-    hitbox.y = randomPosition.y;
+
+    if (availablePositions.isNotEmpty) {
+      final randomPosition = availablePositions[random.nextInt(availablePositions.length)];
+      position = randomPosition / 2;
+      hitbox.position = position;
+    } else {
+      gameRef.overlays.add(GameFinishedView.id);
+      gameRef.pauseEngine();
+      return;
+    }
   }
 
   @override
   FutureOr<void> onLoad() {
-    hitbox = RectangleHitbox(isSolid: true, position: Vector2(180, 120), size: Vector2(20, 20));
+    hitbox = RectangleHitbox(isSolid: true, size: Vector2(20, 20));
     add(hitbox);
     paint = Paint()..color = const Color(0xFFFF0000).withOpacity(0.5);
 
