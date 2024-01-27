@@ -15,20 +15,24 @@ class GameOverView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Game Over',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              const Flexible(
+                child: Text(
+                  'Game Over',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  gameRef.restart();
-                  gameRef.overlays.remove(id);
-                  gameRef.resumeEngine();
-                },
-                child: const Text('Restart'),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    gameRef.restart();
+                    gameRef.overlays.remove(id);
+                    gameRef.resumeEngine();
+                  },
+                  child: const Text('Restart'),
+                ),
               ),
             ],
           ),

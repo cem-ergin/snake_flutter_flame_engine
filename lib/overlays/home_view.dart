@@ -15,19 +15,23 @@ class HomeView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  gameRef.resumeEngine();
-                  gameRef.overlays.remove(id);
-                },
-                child: const Text('Start'),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    gameRef.resumeEngine();
+                    gameRef.overlays.remove(id);
+                  },
+                  child: const Text('Start'),
+                ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement settings chooser logic
-                },
-                child: const Text('Settings Chooser'),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement settings chooser logic
+                  },
+                  child: const Text('Settings Chooser'),
+                ),
               ),
             ],
           ),

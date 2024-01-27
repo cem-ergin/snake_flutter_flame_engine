@@ -15,20 +15,26 @@ class GameFinishedView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Congratulations! You Won!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              const Flexible(
+                child: Text(
+                  'Congratulations! You Won!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  gameRef.restart();
-                  gameRef.overlays.remove(id);
-                  gameRef.resumeEngine();
-                },
-                child: const Text('Restart'),
+              const SizedBox(height: 16),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    gameRef.restart();
+                    gameRef.overlays.remove(id);
+                    gameRef.resumeEngine();
+                  },
+                  child: const Text('Restart'),
+                ),
               ),
             ],
           ),

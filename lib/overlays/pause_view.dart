@@ -15,21 +15,25 @@ class PauseView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  gameRef.overlays.remove(id);
-                  gameRef.resumeEngine();
-                },
-                child: const Text('Resume'),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    gameRef.overlays.remove(id);
+                    gameRef.resumeEngine();
+                  },
+                  child: const Text('Resume'),
+                ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  gameRef.restart();
-                  gameRef.overlays.remove(id);
-                  gameRef.resumeEngine();
-                },
-                child: const Text('Restart'),
+              Flexible(
+                child: ElevatedButton(
+                  onPressed: () {
+                    gameRef.restart();
+                    gameRef.overlays.remove(id);
+                    gameRef.resumeEngine();
+                  },
+                  child: const Text('Restart'),
+                ),
               ),
             ],
           ),

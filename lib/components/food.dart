@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:snake_flame_engine_flutter/game/snake_game.dart';
 import 'package:snake_flame_engine_flutter/main.dart';
 import 'package:snake_flame_engine_flutter/overlays/game_finished_view.dart';
-import 'package:snake_flame_engine_flutter/overlays/game_over_view.dart';
 
 class Food extends PositionComponent {
   late Paint paint;

@@ -6,6 +6,7 @@ import 'package:snake_flame_engine_flutter/overlays/game_over_view.dart';
 import 'package:snake_flame_engine_flutter/overlays/home_view.dart';
 import 'package:snake_flame_engine_flutter/overlays/pause_view.dart';
 
+// final gameSize = Vector2(600, 600);
 final gameSize = Vector2(80, 80);
 const snakeSize = 20.0;
 
