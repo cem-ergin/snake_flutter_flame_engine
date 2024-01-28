@@ -4,7 +4,6 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake_flame_engine_flutter/components/board.dart';
@@ -22,17 +21,21 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    debugMode = true;
+    debugMode = false;
 
-    camera = CameraComponent(world: world, viewport: FixedSizeViewport(gameSize.x, gameSize.y));
-    board = Board(boardSize: gameSize);
-    add(board);
+    const myAnchor = Anchor.topLeft;
+    camera = CameraComponent(world: world, viewport: FixedSizeViewport(800, 600));
+    board = Board(this, boardSize: gameSize);
+    board.anchor = myAnchor;
+    world.add(board);
 
     food = Food(this);
-    add(food);
+    food.anchor = myAnchor;
+    world.add(food);
 
     snake = Snake(this, food: food, beginningSnakeSize: 3);
-    add(snake);
+    snake.anchor = myAnchor;
+    world.add(snake);
 
     size.setValues(gameSize.x, gameSize.y);
     canvasSize.setValues(gameSize.x, gameSize.y);
@@ -42,21 +45,18 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
     });
   }
 
-  @override
-  void onGameResize(Vector2 size) {
-    if (isLoaded) {
-      size.setFrom(gameSize);
-      canvasSize.setFrom(gameSize);
-    }
-    super.onGameResize(size);
-  }
-
   void restart() {
     remove(snake);
     snake = Snake(this, food: food, beginningSnakeSize: 3);
-    add(snake);
+    world.add(snake);
 
     food.randomizePosition([snake.head, food.position]);
+  }
+
+  @override
+  Color backgroundColor() {
+    super.backgroundColor();
+    return Colors.blue.withOpacity(.05);
   }
 
   @override

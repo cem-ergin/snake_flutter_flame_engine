@@ -25,29 +25,23 @@ class HomePage extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white.withOpacity(.5),
       ),
       home: SafeArea(
-        child: Center(
-          child: SizedBox(
-            height: gameSize.x,
-            width: gameSize.y,
-            child: GameWidget.controlled(
-              gameFactory: () => snakeGame,
-              initialActiveOverlays: const [HomeView.id],
-              overlayBuilderMap: {
-                HomeView.id: (context, game) => HomeView(
-                      gameRef: snakeGame,
-                    ),
-                PauseView.id: (context, game) => PauseView(
-                      gameRef: snakeGame,
-                    ),
-                GameOverView.id: (context, game) => GameOverView(
-                      gameRef: snakeGame,
-                    ),
-                GameFinishedView.id: (context, game) => GameFinishedView(
-                      gameRef: snakeGame,
-                    ),
-              },
-            ),
-          ),
+        child: GameWidget.controlled(
+          gameFactory: () => snakeGame,
+          initialActiveOverlays: const [HomeView.id],
+          overlayBuilderMap: {
+            HomeView.id: (context, game) => HomeView(
+                  gameRef: snakeGame,
+                ),
+            PauseView.id: (context, game) => PauseView(
+                  gameRef: snakeGame,
+                ),
+            GameOverView.id: (context, game) => GameOverView(
+                  gameRef: snakeGame,
+                ),
+            GameFinishedView.id: (context, game) => GameFinishedView(
+                  gameRef: snakeGame,
+                ),
+          },
         ),
       ),
     );
