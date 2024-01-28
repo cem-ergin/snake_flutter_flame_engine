@@ -28,7 +28,7 @@ class PauseView extends StatelessWidget {
               Flexible(
                 child: ElevatedButton(
                   onPressed: () {
-                    gameRef.restart();
+                    gameRef.board.restart();
                     gameRef.overlays.remove(id);
                     gameRef.resumeEngine();
                   },

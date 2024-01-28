@@ -7,15 +7,11 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake_flame_engine_flutter/components/board.dart';
-import 'package:snake_flame_engine_flutter/components/food.dart';
-import 'package:snake_flame_engine_flutter/components/snake.dart';
 import 'package:snake_flame_engine_flutter/main.dart';
 import 'package:snake_flame_engine_flutter/models/snake_direction.dart';
 import 'package:snake_flame_engine_flutter/overlays/pause_view.dart';
 
 class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, KeyboardEvents {
-  late Snake snake;
-  late Food food;
   late Board board;
 
   @override
@@ -29,28 +25,8 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
     board.anchor = myAnchor;
     world.add(board);
 
-    food = Food(this);
-    food.anchor = myAnchor;
-    world.add(food);
-
-    snake = Snake(this, food: food, beginningSnakeSize: 3);
-    snake.anchor = myAnchor;
-    world.add(snake);
-
     size.setValues(gameSize.x, gameSize.y);
     canvasSize.setValues(gameSize.x, gameSize.y);
-
-    snake.loaded.then((value) {
-      pauseEngine();
-    });
-  }
-
-  void restart() {
-    remove(snake);
-    snake = Snake(this, food: food, beginningSnakeSize: 3);
-    world.add(snake);
-
-    food.randomizePosition([snake.head, food.position]);
   }
 
   @override
@@ -90,16 +66,16 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
 
   void _handleDirections(int keyId) {
     if (keyId == LogicalKeyboardKey.arrowUp.keyId) {
-      snake.setDirection(SnakeDirection.up);
+      board.snake.setDirection(SnakeDirection.up);
     }
     if (keyId == LogicalKeyboardKey.arrowDown.keyId) {
-      snake.setDirection(SnakeDirection.down);
+      board.snake.setDirection(SnakeDirection.down);
     }
     if (keyId == LogicalKeyboardKey.arrowLeft.keyId) {
-      snake.setDirection(SnakeDirection.left);
+      board.snake.setDirection(SnakeDirection.left);
     }
     if (keyId == LogicalKeyboardKey.arrowRight.keyId) {
-      snake.setDirection(SnakeDirection.right);
+      board.snake.setDirection(SnakeDirection.right);
     }
   }
 
@@ -108,16 +84,16 @@ class SnakeGame extends FlameGame with PanDetector, HasCollisionDetection, Keybo
     final velocityY = info.velocity.y.abs();
     if (velocityX > velocityY) {
       if (info.velocity.x > 0) {
-        snake.setDirection(SnakeDirection.right);
+        board.snake.setDirection(SnakeDirection.right);
       } else {
-        snake.setDirection(SnakeDirection.left);
+        board.snake.setDirection(SnakeDirection.left);
       }
     }
     if (velocityY > velocityX) {
       if (info.velocity.y > 0) {
-        snake.setDirection(SnakeDirection.down);
+        board.snake.setDirection(SnakeDirection.down);
       } else {
-        snake.setDirection(SnakeDirection.up);
+        board.snake.setDirection(SnakeDirection.up);
       }
     }
   }

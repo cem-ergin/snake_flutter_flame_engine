@@ -18,12 +18,12 @@ class Food extends PositionComponent {
   Food(this.gameRef);
 
   void randomizePosition(List<Vector2> occupiedPositions) {
-    final canvasSize = gameRef.canvasSize.toSize();
+    final size = gameRef.size.toSize();
 
     List<Vector2> availablePositions = [];
 
-    for (int x = 0; x < canvasSize.width; x += snakeSize.toInt()) {
-      for (int y = 0; y < canvasSize.height; y += snakeSize.toInt()) {
+    for (int x = 0; x < size.width; x += snakeSize.toInt()) {
+      for (int y = 0; y < size.height; y += snakeSize.toInt()) {
         Vector2 position = Vector2(x.toDouble(), y.toDouble());
         bool isOccupied = occupiedPositions.any(
           (pos) => (pos.x - position.x).abs() < snakeSize && (pos.y - position.y).abs() < snakeSize,
@@ -47,14 +47,20 @@ class Food extends PositionComponent {
 
   @override
   FutureOr<void> onLoad() {
+    super.onLoad();
     hitbox = RectangleHitbox(isSolid: true, size: Vector2(20, 20));
     add(hitbox);
     paint = Paint()..color = const Color(0xFFFF0000).withOpacity(0.5);
 
     randomizePosition([]);
-
-    return super.onLoad();
   }
+
+  // TODO(cem): This should be called after the game is resized. Call it here or after start game button pressed
+  // @override
+  // void onGameResize(Vector2 size) {
+  //   super.onGameResize(size);
+  //   randomizePosition([]);
+  // }
 
   @override
   void render(Canvas canvas) {

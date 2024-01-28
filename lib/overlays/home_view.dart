@@ -20,6 +20,7 @@ class HomeView extends StatelessWidget {
                   onPressed: () {
                     gameRef.resumeEngine();
                     gameRef.overlays.remove(id);
+                    gameRef.board.food.randomizePosition([]);
                   },
                   child: const Text('Start'),
                 ),

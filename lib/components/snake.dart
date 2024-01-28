@@ -153,8 +153,8 @@ class Snake extends PositionComponent with CollisionCallbacks {
   }
 
   void handleOffDimensions(Vector2 newHead) {
-    final gameX = gameRef.canvasSize.x;
-    final gameY = gameRef.canvasSize.y;
+    final gameX = gameRef.size.x;
+    final gameY = gameRef.size.y;
     final divideX = gameX ~/ snakeSize.ceil();
     final divideY = gameY ~/ snakeSize.ceil();
     final finalSizeX = divideX * snakeSize;
@@ -206,7 +206,6 @@ class SnakeBody extends PositionComponent {
 
   SnakeBody(Vector2 position) {
     this.position = position;
-    print('position: $position');
     hitbox = RectangleHitbox(
       size: Vector2(snakeSize - 10, snakeSize - 10),
       position: Vector2(5, 5),
